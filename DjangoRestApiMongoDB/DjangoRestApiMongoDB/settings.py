@@ -95,6 +95,11 @@ DATABASES = {
     }
 }
 
+# Redis
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+MAX_OBJECTS_IN_CACHE = 2
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
