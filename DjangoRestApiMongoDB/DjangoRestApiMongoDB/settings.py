@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,8 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'tutorials.apps.TutorialsConfig',
-    # CORS
-    'corsheaders',
+    # # CORS
+    # 'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -52,15 +53,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # CORS
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    # # CORS
+    # 'corsheaders.middleware.CorsMiddleware',
+    # 'django.middleware.common.CommonMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8081',
-)
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:8081',
+# )
 
 ROOT_URLCONF = 'DjangoRestApiMongoDB.urls'
 
@@ -89,14 +90,19 @@ WSGI_APPLICATION = 'DjangoRestApiMongoDB.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'bezkoder_db',
-        'HOST': '127.0.0.1',
-        'PORT': 27017,
+        'NAME': os.environ.get('MONGO_DB_NAME'),
+        'CLIENT': {
+              'host': os.environ.get('MONGO_DB_HOST'),
+              'port': int(os.environ.get('MONGO_DB_PORT')),
+              'username': os.environ.get('MONGO_DB_USERNAME'),
+              'password': os.environ.get('MONGO_DB_PASSWORD'),
+        }
     }
 }
 
 # Redis
-REDIS_HOST = 'localhost'
+REDIS_HOST = os.environ.get('REDIS_HOST')
+REDIS_CHANNEL_URL = os.environ.get('REDIS_CHANNEL_URL')
 REDIS_PORT = 6379
 MAX_OBJECTS_IN_CACHE = 2
 

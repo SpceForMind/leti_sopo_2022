@@ -74,7 +74,7 @@ def tutorial_list(request):
                 redis_record = tutorial_data
                 redis_record['method'] = 'POST'
                 redis_instance.set(tutorial_data['title'], pickle.dumps(redis_record))
-                return JsonResponse(tutorial_serializer.data, status=status.HTTP_201_CREATED)
+                return JsonResponse(redis_record, status=status.HTTP_201_CREATED)
             return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         for key in redis_instance.keys():
